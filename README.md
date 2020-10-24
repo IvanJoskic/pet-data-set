@@ -9,7 +9,7 @@ This data set contains information on pet breeds. For now it mainly consists of 
 Data set description
 ---------
 **Title:** Breeds of Pets  
-**Author:** Ivan Joskić <i.joskic@outlook.com>  
+**Author:** Ivan Joskić \<i.joskic@outlook.com\>  
 **Version:** 1.0  
 **Language:** English  
 **Theme:** Animals  
