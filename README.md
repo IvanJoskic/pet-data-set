@@ -8,13 +8,13 @@ This data set contains information on pet breeds. For now it mainly consists of 
 
 Data set description
 ---------
-**Title:** Breeds of Pets
-**Author:** Ivan Joskić <i.joskic@outlook.com>
-**Version:** 1.0
-**Language:** English
-**Theme:** Animals
-**Keywords:** animal, pets, pet, house animal
-**Description of attributes:**
+**Title:** Breeds of Pets  
+**Author:** Ivan Joskić <i.joskic@outlook.com>  
+**Version:** 1.0  
+**Language:** English  
+**Theme:** Animals  
+**Keywords:** animal, pets, pet, house animal  
+**Description of attributes:**  
 
 
 If you are interested in finding more information about dog breeds visit [FCI](http://www.fci.be/en/Nomenclature/).
