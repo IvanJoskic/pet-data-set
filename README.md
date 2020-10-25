@@ -1,6 +1,6 @@
 # Pet data set
 
-This data set contains information on pet breeds. For now it mainly consists of dogs and cats but in the future it could be expanded to contain more animal breeds.
+This data set contains information on pet breeds. For now it mainly consists of dogs and cats but in the future it could be expanded to contain more animal species.
 
 
 [Pet Data Set](https://github.com/IvanJoskic/pet-data-set) by [Ivan Joskić](https://github.com/IvanJoskic) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
@@ -25,7 +25,9 @@ Data set description
  - **wiki** \- URL to the wikipeadia page for the breed.
  - **description** \- Short text (up to 500 characters) describing the breeds main qualities.
  - **countryOfOrigin** \- Country of origin.
- - **descendantOf_breed** \- Name of the breed whos descendant is this breed.
  - **classification** \- General classification of the breed based on common traits.
+ - **species** \- Colloquial name of the species.
+ - **descendantOf_breed** \- Name of the breed whos descendant is this breed.
 
+___
 If you are interested in finding more information about dog breeds visit [FCI](http://www.fci.be/en/Nomenclature/) or [AKC](https://www.akc.org/dog-breeds/)
