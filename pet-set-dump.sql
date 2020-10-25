@@ -10,7 +10,15 @@ CREATE TABLE classification
   PRIMARY KEY (className)
 );
 
-CREATE TABLE dogBreed
+CREATE TABLE species
+(
+  colloquialName VARCHAR(50) NOT NULL,
+  speciesName VARCHAR(50) NOT NULL,
+  PRIMARY KEY (colloquialName),
+  UNIQUE (speciesName)
+);
+
+CREATE TABLE breed
 (
   breedName VARCHAR(50) NOT NULL,
   lifeExpectancy INT NOT NULL,
@@ -23,9 +31,11 @@ CREATE TABLE dogBreed
   description VARCHAR(500) NOT NULL,
   countryOfOrigin VARCHAR(50),
   classification VARCHAR(50) NOT NULL,
+  species VARCHAR(50) NOT NULL,
   descendantOf_breed VARCHAR(50),
   PRIMARY KEY (breedName),
   FOREIGN KEY (countryOfOrigin) REFERENCES country(countryName),
   FOREIGN KEY (classification) REFERENCES classification(className),
-  FOREIGN KEY (descendantOf_breed) REFERENCES dogBreed(breedName)
+  FOREIGN KEY (species) REFERENCES species(colloquialName),
+  FOREIGN KEY (descendantOf_breed) REFERENCES breed(breedName)
 );
