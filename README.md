@@ -13,7 +13,7 @@ Data set description
 **Version:** 1.0  
 **Language:** English  
 **Theme:** Animals  
-**Keywords:** animal, pets, pet, house animal  
+**Keywords:** animal, pets, pet, house animal, dog, cat, dogs, cats  
 **Description of attributes:**  
 
 
