@@ -6,7 +6,7 @@ CREATE TABLE country
 
 CREATE TABLE classification
 (
-  className VARCHAR(50) NOT NULL,
+  className VARCHAR(100) NOT NULL,
   PRIMARY KEY (className)
 );
 

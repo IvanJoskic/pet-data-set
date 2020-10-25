@@ -30,4 +30,4 @@ Data set description
  - **descendantOf_breed** \- Name of the breed whos descendant is this breed.
 
 ___
-If you are interested in finding more information about dog breeds visit [FCI](http://www.fci.be/en/Nomenclature/) or [AKC](https://www.akc.org/dog-breeds/)
+If you are interested in finding more information about dog breeds visit [FCI](http://www.fci.be/en/Nomenclature/) or [AKC](https://www.akc.org/dog-breeds/).
