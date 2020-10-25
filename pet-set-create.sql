@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS species;
+DROP TABLE IF EXISTS breed;
+DROP TABLE IF EXISTS country;
+DROP TABLE IF EXISTS classification;
+
 CREATE TABLE country
 (
   countryName VARCHAR(50) NOT NULL,
