@@ -25,6 +25,7 @@ CREATE TABLE species
 
 CREATE TABLE breed
 (
+  id INT NOT NULL,
   breedName VARCHAR(100) NOT NULL,
   lifeExpectancy INT NOT NULL,
   weight FLOAT NOT NULL,
@@ -36,12 +37,12 @@ CREATE TABLE breed
   description VARCHAR(500) NOT NULL,
   gender VARCHAR(10) NOT NULL,
   countryOfOrigin VARCHAR(100),
-  classification VARCHAR(100) NOT NULL,
+  classification VARCHAR(100),
   species VARCHAR(100) NOT NULL,
-  descendantOf_breed VARCHAR(100),
-  PRIMARY KEY (breedName),
+  descendantOf_breed INT,
+  PRIMARY KEY (id),
   FOREIGN KEY (countryOfOrigin) REFERENCES country(countryName),
   FOREIGN KEY (classification) REFERENCES classification(className),
   FOREIGN KEY (species) REFERENCES species(colloquialName),
-  FOREIGN KEY (descendantOf_breed) REFERENCES breed(breedName)
+  FOREIGN KEY (descendantOf_breed) REFERENCES breed(id)
 );
