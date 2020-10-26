@@ -24,4 +24,18 @@ VALUES
 	('France'),
 	('Croatia'),
 	('Argentina'),
-	('America');
+	('America'),
+	('Yugoslavia');
+
+INSERT INTO breed 
+(breedname, lifeexpectancy, weight, height,
+ temperament, colours, coat, wiki, description, gender,
+ countryoforigin, classification, species,
+ descendantof_breed)
+VALUES
+	('German Shepherd', 13, 40, 65,'Confident, Courageous, Smart',
+	'Tan with black saddle, sable, solid black',
+	'Double coat', 'https://en.wikipedia.org/wiki/German_Shepherd',
+	'', 'male', 'Germany', 'Sheepdogs and Cattledogs',
+	'Dog', null)
+RETURNING *;

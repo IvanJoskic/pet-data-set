@@ -16,14 +16,15 @@ Data set description
 **Keywords:** animal, pets, pet, house animal, dog, cat, dogs, cats  
 **Description of attributes:**  
  - **breedName** \- Name of the breed.
- - **lifeExpectancy** \- Life expectancy of the breed.
- - **weight** \- Average weight range for the breed.
- - **height** \- Average height range for the breed.
+ - **lifeExpectancy** \- Average life expectancy of the breed.
+ - **weight** \- Average weight in kilograms for the breed.
+ - **height** \- Average height in centimeters for the breed.
  - **temperament** \- Short text describing the temperament of the breed.
  - **colours** \- List of colour variants in the breed.
  - **coat** \- Type of coat.
  - **wiki** \- URL to the wikipeadia page for the breed.
  - **description** \- Short text (up to 500 characters) describing the breeds main qualities.
+ - **gender** \- Gender of the animal. Male or female.
  - **countryOfOrigin** \- Country of origin.
  - **classification** \- General classification of the breed based on common traits.
  - **species** \- Colloquial name of the species.
