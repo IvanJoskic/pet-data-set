@@ -1,0 +1,20 @@
+{
+  "name": "pet-info",
+  "version": "1.0.0",
+  "description": "Display information about pets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pets",
+    "dogs",
+    "cats",
+    "house pets"
+  ],
+  "author": "Ivan Joskić",
+  "license": "CC-BY-NC-SA-4.0",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
