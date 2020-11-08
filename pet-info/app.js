@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/datatable', async (req, res) => {
-    const petData = await db.one('SELECT * FROM breed LIMIT 1;')
+    const petData = await db.any('SELECT * FROM breed;')
     .then((data) => {
         console.log('DATA: ', data);
         return data;

@@ -3,9 +3,15 @@
 <head>
 <title><%= title %></title>
 <link rel='stylesheet' href='/styles/site.css' />
+<style>
+    main {
+        overflow: auto;
+    }
+</style>
 </head>
 
 <body>
+<main>
     <%- include(`partials/header`); %>
     <table>
         <thead>
@@ -27,23 +33,26 @@
             </tr>
         </thead>
         <tbody>
+            <% data.forEach(function (breedData) { %>
             <tr>
-                <td><%= data.breedname %></td>
-                <td><%= data.lifeexpectancy %></td>
-                <td><%= data.weight %></td>
-                <td><%= data.height%></td>
-                <td><%= data.temperament%></td>
-                <td><%= data.colours%></td>
-                <td><%= data.coat%></td>
-                <td><%= data.wiki%></td>
-                <td><%= data.description%></td>
-                <td><%= data.gender%></td>
-                <td><%= data.countryoforigin %></td>
-                <td><%= data.classification%></td>
-                <td><%= data.species%></td>
-                <td><%= data.descendantof_breed%></td>
+                <td><%= breedData.breedname %></td>
+                <td><%= breedData.lifeexpectancy %></td>
+                <td><%= breedData.weight %></td>
+                <td><%= breedData.height%></td>
+                <td><%= breedData.temperament%></td>
+                <td><%= breedData.colours%></td>
+                <td><%= breedData.coat%></td>
+                <td><%= breedData.wiki%></td>
+                <td><%= breedData.description%></td>
+                <td><%= breedData.gender%></td>
+                <td><%= breedData.countryoforigin %></td>
+                <td><%= breedData.classification%></td>
+                <td><%= breedData.species%></td>
+                <td><%= breedData.descendantof_breed%></td>
             </tr>
+            <% }); %>
         </tbody>
     </table>
+</main>
 </body>
 </html>
