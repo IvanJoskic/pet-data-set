@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/styles/site.css' />
+</head>
+
+<body>
+    <%- include(`partials/header`); %>
+    <table>
+        <thead>
+            <tr>
+                <th>Breed name</th>
+                <th>Life expectancy</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>Temperament</th>
+                <th>Colours</th>
+                <th>Coat</th>
+                <th>Wiki handle</th>
+                <th>Description</th>
+                <th>Gender</th>
+                <th>Country of origin</th>
+                <th>Classification</th>
+                <th>Species</th>
+                <th>Descendant Of</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><%= data.breedname %></td>
+                <td><%= data.lifeexpectancy %></td>
+                <td><%= data.weight %></td>
+                <td><%= data.height%></td>
+                <td><%= data.temperament%></td>
+                <td><%= data.colours%></td>
+                <td><%= data.coat%></td>
+                <td><%= data.wiki%></td>
+                <td><%= data.description%></td>
+                <td><%= data.gender%></td>
+                <td><%= data.countryoforigin %></td>
+                <td><%= data.classification%></td>
+                <td><%= data.species%></td>
+                <td><%= data.descendantof_breed%></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

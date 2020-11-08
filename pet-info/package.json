@@ -4,7 +4,8 @@
   "description": "Display information about pets",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "keywords": [
     "pets",
@@ -15,6 +16,8 @@
   "author": "Ivan Joskić",
   "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
-    "express": "^4.17.1"
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "pg-promise": "^10.7.3"
   }
 }
