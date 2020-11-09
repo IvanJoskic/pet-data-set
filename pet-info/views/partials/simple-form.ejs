@@ -1,0 +1,19 @@
+<form action="/idk" method="POST">
+    <fieldset>
+        <legend>Search dataset</legend>
+        <div>
+            <label for="krijec">Polje za pretragu: </label>
+            <input type="search" id="krijec" name="krijec" placeholder="Unesite vrijednost" title="Unesite ključnu riječ za pretragu." required>
+        </div>
+        <div>
+            <label for="sfield">Search field: </label>
+            <select name="sfield" id="sfield" aria-placeholder="Choose a field">
+                <option value="all">All Fields (wildcard)</option>
+                <option value="breedname">Breed name</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Search">
+        </div>
+    </fieldset>
+</form>

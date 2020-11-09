@@ -1,5 +1,17 @@
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/datatable">Data</a></li>
+    <% if (showExport === true) { %> 
+        <li><button onClick="exportAsCsv()">Export as CSV</button></li>
+        <li><button>Export as JSON</button></li>
+    <% } %>
     <li style="float:right"><a href="/about">About</a></li>
 </ul>
+
+<script>
+    function exportAsCsv() {
+
+        const response = await fetch();
+        console.log('Exporting as CSV...');
+    }
+</script>

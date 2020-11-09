@@ -16,6 +16,7 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'Home',
+        showExport: false,
     });
 });
 
@@ -32,12 +33,14 @@ app.get('/datatable', async (req, res) => {
     res.render('datatable', {
         title: 'Datatable',
         data: petData,
+        showExport: true,
     });
 });
 
 app.get('/about', (req, res) => {
     res.render('about', {
-        title: 'About'
+        title: 'About',
+        showExport: false,
     });
 });
 
