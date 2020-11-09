@@ -1,17 +1,16 @@
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/datatable">Data</a></li>
-    <% if (showExport === true) { %> 
-        <li><button onClick="exportAsCsv()">Export as CSV</button></li>
-        <li><button>Export as JSON</button></li>
+    <% if (showExport === true) { %>
+        <li><a id="myBtn">Filter</a></li>
+        <li><a onClick={exportAsCsv} >Export as CSV</a></li>
+        <li><a>Export as JSON</a></li>
+        <li class="tip">Pro tip: use CTRL + F to increase precision!</li>
     <% } %>
     <li style="float:right"><a href="/about">About</a></li>
 </ul>
 
 <script>
-    function exportAsCsv() {
 
-        const response = await fetch();
-        console.log('Exporting as CSV...');
-    }
+
 </script>

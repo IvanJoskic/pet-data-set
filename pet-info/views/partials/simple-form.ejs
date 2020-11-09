@@ -1,4 +1,4 @@
-<form action="/idk" method="POST">
+<form action="/datatable" method="POST">
     <fieldset>
         <legend>Search dataset</legend>
         <div>
@@ -10,10 +10,56 @@
             <select name="sfield" id="sfield" aria-placeholder="Choose a field">
                 <option value="all">All Fields (wildcard)</option>
                 <option value="breedname">Breed name</option>
+                <option value="lifeexpectancy">Life expectancy</option>
+                <option value="weight">Weight</option>
+                <option value="height">Height</option>
+                <option value="temperament">Temperament</option>
+                <option value="colours">Colours</option>
+                <option value="coat">Coat</option>
+                <option value="wiki">Wiki Handle</option>
+                <option value="description">Description</option>
+                <option value="gender">Gender</option>
+                <option value="countryoforigin">Country of origin</option>
+                <option value="classification">Classification</option>
+                <option value="species">Species</option>
+                <option value="descendantof_breed">Descendanf of breed (id)</option>
             </select>
         </div>
         <div>
-            <input type="submit" value="Search">
+            <input id="submit" type="submit" value="Search">
         </div>
     </fieldset>
 </form>
+
+<script>
+    
+/* Form submit */
+
+document.addEventListener("DOMContentLoaded", function (event) {
+    let submitButton = document.getElementById('submit');
+    let krijec = document.getElementById("krijec");
+    let sfield = document.getElementById('sfield');
+
+    submitButton.addEventListener("click", addItem);
+
+    function addItem() {
+
+        let fields = {
+            krijec: krijec.value,
+            sfield: sfield.value,
+        };
+
+        fetch("/datatable", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(fields)
+            }).then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err))
+    }
+
+});
+
+</script>
