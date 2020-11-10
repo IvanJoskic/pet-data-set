@@ -92,6 +92,24 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+    
+function exportAsJson() {
+        console.log("Exporting as JSON...");
+    }
+
+
+
+async function exportAsCsv() {
+    /* //const response = await fetch();
+    console.log('Exporting as CSV...');
+    let data1 = '<%- JSON.stringify(data) %>';
+    let query1 = '<%= query %>';
+
+    console.log(data1);
+    console.log(query1); */
+
+    let resp = await fetch('http://localhost:3000/csv');
+}
 
 </script>
 </html>

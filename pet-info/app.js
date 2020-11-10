@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Home',
+        title: 'Pet data set',
         showExport: false,
     });
 });
@@ -36,19 +36,8 @@ app.get('/datatable', async (req, res) => {
         title: 'Datatable',
         data: petData,
         showExport: true,
-        exportAsCsv: exportAsCsv,
+        query: '',
     });
-    
-    function exportAsJson() {
-        console.log("Exporting as JSON...");
-    }
-
-    function exportAsCsv() {
-
-        //const response = await fetch();
-        console.log('Exporting as CSV...');
-    }
-
 });
 
 app.get('/about', (req, res) => {
@@ -59,7 +48,14 @@ app.get('/about', (req, res) => {
 });
 
 app.post('/datatable', async (req, res) => {
-    let petData;
+    let petData, query;
+    const krijec = req.body.krijec;
+    const srchField = req.body.sfield;
+    var values = {
+        delimiter: ',',
+        path: `${__dirname}\\public\\static\\pet-set-filter.csv`,
+        query: ''
+    };
     if (req.body.sfield === 'all') {
         if (isNumeric(req.body.krijec)) {
             petData = await db.any('SELECT * FROM breed WHERE breedname=$1 or lifeexpectancy=$1 or weight=$1 or height=$1 or $1=ANY(temperament) or $1=ANY(colours) or coat=$1 or wiki=$1 or description=$1 or gender=$1 or countryoforigin=$1 or classification=$1 or species=$1 or descendantof_breed=$1;'
@@ -71,6 +67,9 @@ app.post('/datatable', async (req, res) => {
             .catch((error) => {
                 console.log('ERROR: ', error)
             });
+            values.query = 'SELECT * FROM breed WHERE lifeexpectancy=' + krijec + ' or weight=' + krijec + ' or height=' + krijec + ' or descendantof_breed=' + krijec + '';
+            console.log(values);
+            db.none('COPY (SELECT * FROM breed WHERE lifeexpectancy=' + krijec + ' or weight=' + krijec + ' or height=' + krijec + ' or descendantof_breed=' + krijec + ') TO \'' + `${__dirname}\\public\\static\\pet-set-filter` + '\' WITH CSV DELIMITER \',\'');
         } else {
             petData = await db.any('SELECT * FROM breed WHERE breedname=$1 or $1=ANY(temperament) or $1=ANY(colours) or coat=$1 or wiki=$1 or description=$1 or gender=$1 or countryoforigin=$1 or classification=$1 or species=$1;'
             , req.body.krijec)
@@ -81,6 +80,7 @@ app.post('/datatable', async (req, res) => {
             .catch((error) => {
                 console.log('ERROR: ', error)
             });
+            query = 'SELECT * FROM breed WHERE breedname=\'' + krijec + '\' or \'' + krijec + '\'=ANY(temperament) or \'' + krijec + '\'=ANY(colours) or coat=\'' + krijec + '\' or wiki=\'' + krijec + '\' or description=\'' + krijec + '\' or gender=\'' + krijec + '\' or countryoforigin=\'' + krijec + '\' or classification=\'' + krijec + '\' or species=\'' + krijec + '\';'
         }
     } else if (req.body.sfield === 'temperament' || req.body.sfield === 'colours') {
         petData = await db.any('SELECT * FROM breed WHERE $2=ANY($1~);', [req.body.sfield, req.body.krijec])
@@ -91,6 +91,7 @@ app.post('/datatable', async (req, res) => {
         .catch((error) => {
             console.log('ERROR: ', error)
         });
+        query = 'SELECT * FROM breed WHERE \'' + krijec + '\'=ANY(' + srchField + ');'
     } else {
         petData = await db.any('SELECT * FROM breed WHERE $1~=$2;', [req.body.sfield, req.body.krijec])
         .then((data) => {
@@ -100,18 +101,25 @@ app.post('/datatable', async (req, res) => {
         .catch((error) => {
             console.log('ERROR: ', error)
         });
+        query = 'SELECT * FROM breed WHERE ' + srchField + '=\'' + krijec + '\';'
     }
-    console.log(req.body)
+
     res.render('datatable', {
         title: 'Datatable',
         data:petData,
         showExport:true,
+        query: query,
     });
 
     function isNumeric(str) {
         if (typeof str != "string") return false;
         return !isNaN(str) && !isNaN(parseFloat(str));
     }
+});
+
+app.get('/csv', function(req, res){
+    const file = `${__dirname}/public/static/pet-set-filter.csv`;
+    res.download(file); // Set disposition and send it.
 });
 
 app.listen(port, () => {

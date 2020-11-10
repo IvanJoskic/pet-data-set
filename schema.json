@@ -1,0 +1,377 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "array",
+    "title": "Pet data set",
+    "description": "Data about pet breeds.",
+    "default": [],
+    "examples": [
+        [
+            {
+                "breedname": "Burmese",
+                "lifeexpectancy": 14,
+                "weight": 5,
+                "height": 21.5,
+                "temperament": [
+                    "Playful",
+                    "Puppy-like",
+                    "Vocal"
+                ],
+                "colours": [
+                    "Rich Dark Brown",
+                    "Blue",
+                    "Red",
+                    "Cream",
+                    "Tortoiseshell"
+                ],
+                "coat": "Very short, fine and glossy",
+                "wiki": "Burmese_cat",
+                "description": "The dogs of cats",
+                "gender": "m/f",
+                "countryoforigin": {
+                    "countryoforigin": "Burma",
+                    "countryabbrev": "MM"
+                },
+                "classification": null,
+                "species": {
+                    "colloquialname": "Cat",
+                    "speciesname": "Felis catus"
+                },
+                "descendantof_breed": null
+            },
+            {
+                "breedname": "Basset Hound",
+                "lifeexpectancy": 11,
+                "weight": 30,
+                "height": 34,
+                "temperament": [
+                    "Charming",
+                    "Patient",
+                    "Low-key"
+                ],
+                "colours": [
+                    "Black",
+                    "White",
+                    "Tan"
+                ],
+                "coat": "Smooth and short",
+                "wiki": "Basset_Hound",
+                "description": "Flappy sausage",
+                "gender": "male",
+                "countryoforigin": {
+                    "countryoforigin": "United Kingdom",
+                    "countryabbrev": "UK"
+                },
+                "classification": "Scent hounds and related breeds",
+                "species": {
+                    "colloquialname": "Dog",
+                    "speciesname": "Canis familiaris"
+                },
+                "descendantof_breed": null
+            }
+        ]
+    ],
+    "additionalItems": true,
+    "items": {
+        "$id": "#/items",
+        "anyOf": [
+            {
+                "$id": "#/items/anyOf/0",
+                "type": "object",
+                "title": "Breed",
+                "description": "Contains information about pet breeds.",
+                "default": {},
+                "examples": [
+                    {
+                        "breedname": "Burmese",
+                        "lifeexpectancy": 14,
+                        "weight": 5,
+                        "height": 21.5,
+                        "temperament": [
+                            "Playful",
+                            "Puppy-like",
+                            "Vocal"
+                        ],
+                        "colours": [
+                            "Rich Dark Brown",
+                            "Blue",
+                            "Red",
+                            "Cream",
+                            "Tortoiseshell"
+                        ],
+                        "coat": "Very short, fine and glossy",
+                        "wiki": "Burmese_cat",
+                        "description": "The dogs of cats",
+                        "gender": "m/f",
+                        "countryoforigin": {
+                            "countryoforigin": "Burma",
+                            "countryabbrev": "MM"
+                        },
+                        "classification": null,
+                        "species": {
+                            "colloquialname": "Cat",
+                            "speciesname": "Felis catus"
+                        },
+                        "descendantof_breed": null
+                    }
+                ],
+                "required": [
+                    "breedname",
+                    "lifeexpectancy",
+                    "weight",
+                    "height",
+                    "temperament",
+                    "colours",
+                    "coat",
+                    "wiki",
+                    "countryoforigin",
+                    "classification",
+                    "species"
+                ],
+                "properties": {
+                    "breedname": {
+                        "$id": "#/items/anyOf/0/properties/breedname",
+                        "type": "string",
+                        "title": "The breed name",
+                        "description": "The name of the breed.",
+                        "default": "",
+                        "examples": [
+                            "Burmese"
+                        ]
+                    },
+                    "lifeexpectancy": {
+                        "$id": "#/items/anyOf/0/properties/lifeexpectancy",
+                        "type": "integer",
+                        "title": "The life expectancy",
+                        "description": "Average life expectancy of the breed.",
+                        "default": 0,
+                        "examples": [
+                            14
+                        ]
+                    },
+                    "weight": {
+                        "$id": "#/items/anyOf/0/properties/weight",
+                        "type": "integer",
+                        "title": "The weight",
+                        "description": "Average weight of the breed.",
+                        "default": 0,
+                        "examples": [
+                            5
+                        ]
+                    },
+                    "height": {
+                        "$id": "#/items/anyOf/0/properties/height",
+                        "type": "number",
+                        "title": "The height",
+                        "description": "Average height of the breed.",
+                        "default": 0.0,
+                        "examples": [
+                            21.5
+                        ]
+                    },
+                    "temperament": {
+                        "$id": "#/items/anyOf/0/properties/temperament",
+                        "type": "array",
+                        "title": "The temperament",
+                        "description": "The general temperament of the breed.",
+                        "default": [],
+                        "examples": [
+                            [
+                                "Playful",
+                                "Puppy-like"
+                            ]
+                        ],
+                        "additionalItems": true,
+                        "items": {
+                            "$id": "#/items/anyOf/0/properties/temperament/items",
+                            "anyOf": [
+                                {
+                                    "$id": "#/items/anyOf/0/properties/temperament/items/anyOf/0",
+                                    "type": "string",
+                                    "title": "Trait",
+                                    "description": "A temperament trait.",
+                                    "default": "",
+                                    "examples": [
+                                        "Playful",
+                                        "Puppy-like"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "colours": {
+                        "$id": "#/items/anyOf/0/properties/colours",
+                        "type": "array",
+                        "title": "The colours",
+                        "description": "Colours the breed comes in.",
+                        "default": [],
+                        "examples": [
+                            [
+                                "Rich Dark Brown",
+                                "Blue"
+                            ]
+                        ],
+                        "additionalItems": true,
+                        "items": {
+                            "$id": "#/items/anyOf/0/properties/colours/items",
+                            "anyOf": [
+                                {
+                                    "$id": "#/items/anyOf/0/properties/colours/items/anyOf/0",
+                                    "type": "string",
+                                    "title": "Color",
+                                    "description": "A color.",
+                                    "default": "",
+                                    "examples": [
+                                        "Rich Dark Brown",
+                                        "Blue"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "coat": {
+                        "$id": "#/items/anyOf/0/properties/coat",
+                        "type": "string",
+                        "title": "The coat",
+                        "description": "Coats the breed comes in.",
+                        "default": "",
+                        "examples": [
+                            "Very short, fine and glossy"
+                        ]
+                    },
+                    "wiki": {
+                        "$id": "#/items/anyOf/0/properties/wiki",
+                        "type": "string",
+                        "title": "The wikipedia",
+                        "description": "The wikipedia handle.",
+                        "default": "",
+                        "examples": [
+                            "Burmese_cat"
+                        ]
+                    },
+                    "description": {
+                        "$id": "#/items/anyOf/0/properties/description",
+                        "type": "string",
+                        "title": "The description",
+                        "description": "A short description about the breed.",
+                        "default": "",
+                        "examples": [
+                            "The dogs of cats"
+                        ]
+                    },
+                    "gender": {
+                        "$id": "#/items/anyOf/0/properties/gender",
+                        "type": "string",
+                        "title": "The gender",
+                        "description": "The breed's gender.",
+                        "default": "",
+                        "examples": [
+                            "m/f"
+                        ]
+                    },
+                    "countryoforigin": {
+                        "$id": "#/items/anyOf/0/properties/countryoforigin",
+                        "type": "object",
+                        "title": "The country of origin",
+                        "description": "The breed's country of origin.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "countryoforigin": "Burma",
+                                "countryabbrev": "MM"
+                            }
+                        ],
+                        "required": [
+                            "countryoforigin",
+                            "countryabbrev"
+                        ],
+                        "properties": {
+                            "countryoforigin": {
+                                "$id": "#/items/anyOf/0/properties/countryoforigin/properties/countryoforigin",
+                                "type": "string",
+                                "title": "The name of the country of origin",
+                                "description": "A country has a name. This is it.",
+                                "default": "",
+                                "examples": [
+                                    "Burma"
+                                ]
+                            },
+                            "countryabbrev": {
+                                "$id": "#/items/anyOf/0/properties/countryoforigin/properties/countryabbrev",
+                                "type": "string",
+                                "title": "The country abbreviation",
+                                "description": "The ISO standard abbreviation for the country.",
+                                "default": "",
+                                "examples": [
+                                    "MM"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    },
+                    "classification": {
+                        "$id": "#/items/anyOf/0/properties/classification",
+                        "type": "string",
+                        "title": "The classification",
+                        "description": "The general classification the breed belongs to.",
+                        "default": "",
+                        "examples": [
+                            "Companion and Toy Dogs"
+                        ]
+                    },
+                    "species": {
+                        "$id": "#/items/anyOf/0/properties/species",
+                        "type": "object",
+                        "title": "The species",
+                        "description": "Species of the breed.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "colloquialname": "Cat",
+                                "speciesname": "Felis catus"
+                            }
+                        ],
+                        "required": [
+                            "colloquialname",
+                            "speciesname"
+                        ],
+                        "properties": {
+                            "colloquialname": {
+                                "$id": "#/items/anyOf/0/properties/species/properties/colloquialname",
+                                "type": "string",
+                                "title": "The colloquial name",
+                                "description": "Colloquial name of the breed",
+                                "default": "",
+                                "examples": [
+                                    "Cat"
+                                ]
+                            },
+                            "speciesname": {
+                                "$id": "#/items/anyOf/0/properties/species/properties/speciesname",
+                                "type": "string",
+                                "title": "The species latin name",
+                                "description": "The species scientific, latin name.",
+                                "default": "",
+                                "examples": [
+                                    "Felis catus"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    },
+                    "descendantof_breed": {
+                        "$id": "#/items/anyOf/0/properties/descendantof_breed",
+                        "type": "null",
+                        "title": "The parent breed of this breed",
+                        "description": "The breed this breed was bred from.",
+                        "default": null,
+                        "examples": [
+                            null
+                        ]
+                    }
+                },
+                "additionalProperties": true
+            }
+        ]
+    }
+}
