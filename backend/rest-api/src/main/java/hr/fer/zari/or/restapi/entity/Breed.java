@@ -2,6 +2,8 @@ package hr.fer.zari.or.restapi.entity;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -50,9 +52,9 @@ public class Breed implements Serializable{
 	@Column(name="breedname")
 	private String breedname;
 	@Column(name="lifeexpectancy")
-	private int lifeExpectancy;
-	private int weight;
-	private int height;
+	private Integer lifeExpectancy;
+	private Integer weight;
+	private Integer height;
 	@Type(type = "string-array")
     @Column(
         name = "temperament",
@@ -109,6 +111,27 @@ public class Breed implements Serializable{
 		this.species = species;
 		this.descendantOfBreed = descendantOfBreed;
 	}
+	
+	public Map<String, Integer> provideFieldStatus() {
+		Map<String, Integer> result = new HashMap<String, Integer>();
+		
+		result.put("breedname", this.breedname != null ? 1 : 0);
+		result.put("lifeExpectancy", this.lifeExpectancy != null ? 1 : 0);
+		result.put("weight", this.weight != null ? 1 : 0);
+		result.put("height", this.height != null ? 1 : 0);
+		result.put("temperament", this.temperament != null ? 1 : 0);
+		result.put("colours", this.colours != null ? 1 : 0);
+		result.put("coat", this.coat != null ? 1 : 0);
+		result.put("wiki", this.wiki != null ? 1 : 0);
+		result.put("description", this.description != null ? 1 : 0);
+		result.put("gender", this.gender != null ? 1 : 0);
+		result.put("countryOfOrigin", this.countryOfOrigin != null ? 1 : 0);
+		result.put("classification", this.classification != null ? 1 : 0);
+		result.put("species", this.species != null ? 1 : 0);
+		result.put("descendantOfBreed", this.descendantOfBreed != null ? 1 : 0);
+		
+		return result;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -116,6 +139,66 @@ public class Breed implements Serializable{
 
 	public long getId() {
 		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public void setBreedname(String breedname) {
+		this.breedname = breedname;
+	}
+
+	public void setLifeExpectancy(int lifeExpectancy) {
+		this.lifeExpectancy = lifeExpectancy;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setTemperament(String[] temperament) {
+		this.temperament = temperament;
+	}
+
+	public void setColours(String[] colours) {
+		this.colours = colours;
+	}
+
+	public void setCoat(String coat) {
+		this.coat = coat;
+	}
+
+	public void setWiki(String wiki) {
+		this.wiki = wiki;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public void setCountryOfOrigin(Country countryOfOrigin) {
+		this.countryOfOrigin = countryOfOrigin;
+	}
+
+	public void setClassification(Classification classification) {
+		this.classification = classification;
+	}
+
+	public void setSpecies(Species species) {
+		this.species = species;
+	}
+
+	public void setDescendantOfBreed(Breed descendantOfBreed) {
+		this.descendantOfBreed = descendantOfBreed;
 	}
 
 	public String getBreedname() {
