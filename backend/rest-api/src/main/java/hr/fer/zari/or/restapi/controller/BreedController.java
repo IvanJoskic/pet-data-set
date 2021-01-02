@@ -1,13 +1,25 @@
 package hr.fer.zari.or.restapi.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletMapping;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
+import org.springframework.hateoas.Affordance;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +27,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import hr.fer.zari.or.restapi.entity.Breed;
 import hr.fer.zari.or.restapi.exception.BreedNotFoundException;
+import hr.fer.zari.or.restapi.exception.NoDescendantFoundException;
 import hr.fer.zari.or.restapi.model.BreedModel;
 import hr.fer.zari.or.restapi.service.AnimalRepository;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 public class BreedController {
@@ -29,38 +45,112 @@ public class BreedController {
 	private AnimalRepository repository;
 	
 	@GetMapping(path = "/breeds")
-	public List<Breed> retrieveAllBreeds() {
-		return repository.findAll();
+	public CollectionModel<Breed> retrieveAllBreeds() {
+		Link selfLink = linkTo(methodOn(BreedController.class).retrieveAllBreeds()).withSelfRel().withType(RequestMethod.GET.toString());
+		Affordance create = afford(methodOn(BreedController.class).createBreed(null));
+		
+		Link post = linkTo(methodOn(BreedController.class).createBreed(null))
+				.withSelfRel()
+				.withType(RequestMethod.POST.toString());
+
+		return CollectionModel.of(repository.findAll(), selfLink.andAffordance(create), post);
 	}
 	
 	@GetMapping(path = "/breeds/{id}")
-	public Breed getBreedById(@PathVariable long id) {
+	public EntityModel<Breed> getBreedById(@PathVariable long id) {
 		Optional<Breed> breed = repository.findById(id);
 		// TODO throw error for breed == null
 		// also create the exception to throw
-		return breed.isPresent() ? breed.get() : null;
+		if (!breed.isPresent()) {
+			throw new BreedNotFoundException(id);
+		}
+		
+		Link selfLink = linkTo(methodOn(BreedController.class).getBreedById(id))
+				.withSelfRel()
+				.withType(RequestMethod.GET.toString());
+		//Affordance delete = afford(methodOn(BreedController.class).deleteBreed(id));
+		Affordance put = afford(methodOn(BreedController.class).updateBreed(id, null));
+		Link coloursLink = linkTo(methodOn(BreedController.class).getColoursForBreed(id))
+				.withRel("colours")
+				.withType(RequestMethod.GET.toString());
+		Link descendantOfLink = linkTo(methodOn(BreedController.class).getDescendantOfForBreed(id))
+				.withRel("descendantOf")
+				.withType(RequestMethod.GET.toString());
+		Link aggregateRoot = linkTo(methodOn(BreedController.class).retrieveAllBreeds())
+				.withRel("breeds")
+				.withType(RequestMethod.GET.toString());
+		
+		return EntityModel.of(breed.get(), selfLink.andAffordance(put), coloursLink, descendantOfLink, aggregateRoot);
 	}
 	
 	@GetMapping(path = "/breeds/{id}/colours")
-	public String[] getColoursForBreed(@PathVariable long id) {
-		Optional<Breed> breed = repository.findById(id);
-		
-		if (!breed.isPresent()) {
-			// TODO throw exception
-		}
-		
-		return breed.get().getColours();
-	}
-	
-	@GetMapping(path = "/breeds/{id}/descendantOf")
-	public Breed getDescendantOfForBreed(@PathVariable long id) {
+	public CollectionModel<String> getColoursForBreed(@PathVariable long id) {
 		Optional<Breed> breed = repository.findById(id);
 		
 		if (!breed.isPresent()) {
 			throw new BreedNotFoundException(id);
 		}
 		
-		return breed.get().getDescendantOfBreed();
+		Link selfLink = linkTo(methodOn(BreedController.class).getColoursForBreed(id))
+				.withSelfRel()
+				.withType(RequestMethod.GET.toString());
+
+		Link aggregateRoot = linkTo(methodOn(BreedController.class).retrieveAllBreeds())
+				.withRel("breeds")
+				.withType(RequestMethod.GET.toString());
+		
+		Link aggRootCol = linkTo(methodOn(BreedController.class).getColours())
+				.withRel("colours")
+				.withType(RequestMethod.GET.toString());
+		
+		return CollectionModel.of(Arrays.asList(breed.get().getColours()), selfLink, aggregateRoot, aggRootCol);
+	}
+	
+	@GetMapping(path = "/breeds/colours")
+	public CollectionModel<String> getColours() {
+		List<Breed> breeds = repository.findAll();
+		Set<String> colours = new TreeSet<>();
+		
+		for (Breed b : breeds) {
+			colours.addAll(Arrays.asList(b.getColours()));
+		}
+
+		Link selfLink = linkTo(methodOn(BreedController.class).getColours())
+				.withSelfRel()
+				.withType(RequestMethod.GET.toString());
+
+		Link aggregateRoot = linkTo(methodOn(BreedController.class).retrieveAllBreeds())
+				.withRel("breeds")
+				.withType(RequestMethod.GET.toString());
+		
+		return CollectionModel.of(colours, selfLink, aggregateRoot);
+	}
+	
+	@GetMapping(path = "/breeds/{id}/descendantOf")
+	public EntityModel<Breed> getDescendantOfForBreed(@PathVariable long id) {
+		Optional<Breed> breed = repository.findById(id);
+		
+		if (!breed.isPresent()) {
+			throw new BreedNotFoundException(id);
+		}
+		
+		if (breed.get().getDescendantOfBreed() == null) {
+			throw new NoDescendantFoundException("There is no descendant.");
+		}
+		
+		Link selfLink = linkTo(methodOn(BreedController.class).getDescendantOfForBreed(id))
+				.withSelfRel()
+				.withType(RequestMethod.GET.toString());
+		
+		Link selfRoot = linkTo(methodOn(BreedController.class).getBreedById(id))
+				.withRel("breed")
+				.withType(RequestMethod.GET.toString());
+		
+		Link aggregateRoot = linkTo(methodOn(BreedController.class).retrieveAllBreeds())
+				.withRel("breeds")
+				.withType(RequestMethod.GET.toString());
+		
+		return EntityModel.of(breed.get().getDescendantOfBreed(), selfLink, selfRoot, aggregateRoot);
 	}
 	
 	@GetMapping(path = "/breeds/description")
