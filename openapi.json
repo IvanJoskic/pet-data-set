@@ -1,0 +1,583 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Pet Data Set",
+    "description": "This is a simple pet data set.",
+    "contact": {
+      "email": "ivan.joskic@fer.hr"
+    },
+    "license": {
+      "name": "Attribution-NonCommercial-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1"
+    },
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "breeds",
+      "description": "Everything about breeds"
+    },
+    {
+      "name": "breed",
+      "description": "Individual breed info"
+    },
+    {
+      "name": "openapi",
+      "description": "OpenAPI specification"
+    }
+  ],
+  "paths": {
+    "/breeds/{breedId}": {
+      "put": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Update an existing breed",
+        "operationId": "updateBreed",
+        "requestBody": {
+          "description": "Breed object to be updated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Breed"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Breed"
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "ID of breed to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid field value",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "get": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Find breed by id",
+        "operationId": "findBreedById",
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "ID of breed to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Breed not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Deletes a breed",
+        "operationId": "deleteBreed",
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "Breed id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Pet not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/breeds/description": {
+      "get": {
+        "tags": [
+          "breeds"
+        ],
+        "summary": "Get description for fields.",
+        "operationId": "fieldDesc",
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "openapi"
+        ],
+        "summary": "Openapi api specification",
+        "operationId": "getOpenApi",
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/breeds": {
+      "get": {
+        "tags": [
+          "breeds"
+        ],
+        "summary": "Return all the breeds",
+        "operationId": "getEverything",
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Breed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "breeds"
+        ],
+        "summary": "Updates a breed with form data",
+        "operationId": "updateBreedWithForm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "breedName": {
+                    "type": "string",
+                    "example": "Boston Terrier",
+                    "description": "Name of the breed."
+                  },
+                  "lifeExpectancy": {
+                    "type": "integer",
+                    "example": 18,
+                    "description": "Average life expectancy for the breed."
+                  },
+                  "weight": {
+                    "type": "integer",
+                    "example": 20,
+                    "description": "Average weight."
+                  },
+                  "height": {
+                    "type": "integer",
+                    "example": 25,
+                    "description": "Average height."
+                  },
+                  "temperament": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "playful",
+                      "smart",
+                      "cuddly"
+                    ],
+                    "description": "Temperament of the breed."
+                  },
+                  "colours": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "sable",
+                      "dark",
+                      "white"
+                    ],
+                    "description": "Possible colours for the breed."
+                  },
+                  "coat": {
+                    "type": "string",
+                    "example": "Dense, long and all around fluffy",
+                    "description": "The type of coat for the breed."
+                  },
+                  "wiki": {
+                    "type": "string",
+                    "example": "Boston_Terrier",
+                    "description": "The Wiki-handle for the breeds wikipedia page."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A short description."
+                  },
+                  "gender": {
+                    "type": "string",
+                    "example": "male",
+                    "description": "The gender."
+                  },
+                  "countryOfOrigin": {
+                    "$ref": "#/components/schemas/Country"
+                  },
+                  "classification": {
+                    "$ref": "#/components/schemas/Classification"
+                  },
+                  "species": {
+                    "$ref": "#/components/schemas/Species"
+                  },
+                  "descendantOfBreed": {
+                    "$ref": "#/components/schemas/Breed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/breeds/{breedId}/descendantOf": {
+      "get": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Gets descendantOf field",
+        "operationId": "getDescendantOf",
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "ID of breed to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Breed"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "success, but no descendant exists",
+            "content": {}
+          },
+          "404": {
+            "description": "breed not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/breeds/colours": {
+      "get": {
+        "tags": [
+          "breeds"
+        ],
+        "summary": "Return all the breeds colours",
+        "operationId": "getAllColours",
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "blue"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/breeds/{breedId}/colours": {
+      "get": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Return colours by breed id",
+        "operationId": "getColoursById",
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "ID of breed to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "blue"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "breed not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Country": {
+        "required": [
+          "countryName"
+        ],
+        "type": "object",
+        "properties": {
+          "countryName": {
+            "type": "string",
+            "example": "Countriestan",
+            "description": "Name of the country."
+          },
+          "countryAbbrev": {
+            "type": "string",
+            "example": "CS",
+            "description": "ISO 3166-1 standard country code"
+          }
+        }
+      },
+      "Classification": {
+        "required": [
+          "className"
+        ],
+        "type": "object",
+        "properties": {
+          "className": {
+            "type": "string",
+            "example": "Herding dogs",
+            "description": "A group of dog breeds bred for a common purpose and with similar traits."
+          },
+          "description": {
+            "type": "string",
+            "example": "Smart, fast and love to please owner.",
+            "description": "Short description of the breed."
+          }
+        }
+      },
+      "Species": {
+        "required": [
+          "colloquialName",
+          "speciesName"
+        ],
+        "type": "object",
+        "properties": {
+          "colloquialName": {
+            "type": "string",
+            "example": "Dog",
+            "description": "Name used colloquialy."
+          },
+          "speciesName": {
+            "type": "string",
+            "example": "Canis Lupus",
+            "description": "Scientific, latin name."
+          }
+        }
+      },
+      "Breed": {
+        "required": [
+          "id",
+          "breedName",
+          "lifeExpectancy",
+          "weight",
+          "height",
+          "temperament",
+          "colours",
+          "coat",
+          "wiki",
+          "gender",
+          "species"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1234,
+            "description": "Unique identifier."
+          },
+          "breedName": {
+            "type": "string",
+            "example": "Boston Terrier",
+            "description": "Name of the breed."
+          },
+          "lifeExpectancy": {
+            "type": "integer",
+            "example": 18,
+            "description": "Average life expectancy for the breed."
+          },
+          "weight": {
+            "type": "integer",
+            "example": 20,
+            "description": "Average weight."
+          },
+          "height": {
+            "type": "integer",
+            "example": 25,
+            "description": "Average height."
+          },
+          "temperament": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "playful",
+              "smart",
+              "cuddly"
+            ],
+            "description": "Temperament of the breed."
+          },
+          "colours": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "sable",
+              "dark",
+              "white"
+            ],
+            "description": "Possible colours for the breed."
+          },
+          "coat": {
+            "type": "string",
+            "example": "Dense, long and all around fluffy",
+            "description": "The type of coat for the breed."
+          },
+          "wiki": {
+            "type": "string",
+            "example": "Boston_Terrier",
+            "description": "The Wiki-handle for the breeds wikipedia page."
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description."
+          },
+          "gender": {
+            "type": "string",
+            "example": "male",
+            "description": "The gender."
+          },
+          "countryOfOrigin": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "species": {
+            "$ref": "#/components/schemas/Species"
+          },
+          "descendantOfBreed": {
+            "$ref": "#/components/schemas/Breed"
+          }
+        }
+      }
+    }
+  }
+}
