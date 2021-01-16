@@ -1,5 +1,6 @@
 package hr.fer.zari.or.restapi.controller;
 
+import java.awt.Image;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +15,16 @@ import javax.servlet.http.HttpServletMapping;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.hateoas.Affordance;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +41,9 @@ import hr.fer.zari.or.restapi.exception.BreedNotFoundException;
 import hr.fer.zari.or.restapi.exception.InvalidInputException;
 import hr.fer.zari.or.restapi.exception.NoDescendantFoundException;
 import hr.fer.zari.or.restapi.model.BreedModel;
+import hr.fer.zari.or.restapi.model.ResponseModel;
 import hr.fer.zari.or.restapi.service.AnimalRepository;
+import hr.fer.zari.or.restapi.service.WikiApiService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -44,6 +51,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BreedController {
 	@Autowired
 	private AnimalRepository repository;
+	
+	@Autowired
+	private WikiApiService wikiApiService;
 
 	@GetMapping(path = "/breeds")
 	public CollectionModel<Breed> retrieveAllBreeds() {
@@ -169,6 +179,7 @@ public class BreedController {
 	}
 
 	@DeleteMapping(path = "/breeds/{id}")
+	@CacheEvict(cacheNames = "images")
 	public void deleteBreed(@PathVariable long id) {
 		repository.deleteById(id);
 	}
@@ -181,6 +192,7 @@ public class BreedController {
 	 */
 	@PutMapping(path = "/breeds/{id}")
 	public ResponseEntity<Object> updateBreed(@PathVariable long id, @RequestBody Breed breed) {
+
 		Map<String, Integer> fieldStatus = breed.provideFieldStatus();
 		try {
 			Breed updatedBreed = repository.getOne(id);
@@ -238,4 +250,30 @@ public class BreedController {
 		}
 
 	}
+	
+	@GetMapping("/breeds/{id}/picture")
+	public ResponseEntity<byte[]> getPictureFromWiki(@PathVariable long id) {
+		
+		Optional<Breed> maybe = repository.findById(id);
+		
+		if (!maybe.isPresent()) {
+			throw new BreedNotFoundException(id);
+		}
+		
+		Breed breed = maybe.get();
+		byte[] image = wikiApiService.getImage(breed.getWiki());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "image/jpeg");
+		headers.add("Content-Disposition", "inline");
+		
+		// Jeli bitan Content-Disposition?
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+	}
 }
+
+
+
+
+
+

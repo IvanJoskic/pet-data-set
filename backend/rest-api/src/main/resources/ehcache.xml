@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd"
+    updateCheck="true"
+    monitoring="autodetect"
+    dynamicConfig="true"
+    diskPersistent="true">
+     
+	<diskStore path="user.dir" />
+	
+    <defaultCache eternal="false" timeToIdleSeconds="2"
+           timeToLiveSeconds="2" maxElementsInMemory="100" overflowToDisk="false" />
+    <cache name="images"
+    	   eternal="false"
+           maxElementsInMemory="1000" 
+           timeToIdleSeconds="3"
+           timeToLiveSeconds="3"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           transactionalMode="off">
+           <persistence strategy="localTempSwap" />
+    </cache>
+</ehcache>
