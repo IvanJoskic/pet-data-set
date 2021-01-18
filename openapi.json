@@ -421,6 +421,50 @@
         },
         "x-codegen-request-body-name": "body"
       }
+    },
+    "/breeds/{breedId}/picture": {
+      "get": {
+        "tags": [
+          "breed"
+        ],
+        "summary": "Return image by breed id",
+        "operationId": "getImageById",
+        "parameters": [
+          {
+            "name": "breedId",
+            "in": "path",
+            "description": "ID of breed image to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operation successful",
+            "content": {
+              "application/json": {
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Breed"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Breed"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "breed not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
     }
   },
   "components": {

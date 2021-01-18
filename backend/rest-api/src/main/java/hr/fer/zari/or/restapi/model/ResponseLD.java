@@ -1,23 +1,19 @@
 package hr.fer.zari.or.restapi.model;
 
-import java.awt.Image;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 import hr.fer.zari.or.restapi.entity.Breed;
 import hr.fer.zari.or.restapi.entity.Classification;
 import hr.fer.zari.or.restapi.entity.Country;
 import hr.fer.zari.or.restapi.entity.Species;
 
-public class Response<T> {
-
+public class ResponseLD<T> {
+	
+	private Map<String, String> jsonLd;
 	private long id;
 	private String breedname;
 	private Integer lifeExpectancy;
@@ -35,8 +31,11 @@ public class Response<T> {
 	private Breed descendantOfBreed;
 	private URI image;
 	
-	public Response(T breed, String image) {
+	public ResponseLD(T breed, String image) {
 		super();
+		Map<String, String> tempMap = new HashMap<>();
+		tempMap.put("@context", "https://schema.org/");
+		this.jsonLd = tempMap;
 		Breed b = (Breed) breed;
 		this.breedname = b.getBreedname();
 		this.lifeExpectancy = b.getLifeExpectancy();
@@ -59,8 +58,11 @@ public class Response<T> {
 			e.printStackTrace();
 		}
 	}
-	public Response(T breed, URI image) {
+	public ResponseLD(T breed, URI image) {
 		super();
+		Map<String, String> tempMap = new HashMap<>();
+		tempMap.put("@context", "https://schema.org/");
+		this.jsonLd = tempMap;
 		Breed b = (Breed) breed;
 		this.breedname = b.getBreedname();
 		this.lifeExpectancy = b.getLifeExpectancy();
@@ -79,7 +81,15 @@ public class Response<T> {
 		this.image = image;
 
 	}
+	
+	
 
+	public Map<String, String> getJsonLd() {
+		return jsonLd;
+	}
+	public void setJsonLd(Map<String, String> jsonLd) {
+		this.jsonLd = jsonLd;
+	}
 	public URI getImage() {
 		return image;
 	}
@@ -193,9 +203,5 @@ public class Response<T> {
 	public void setImage(URI image) {
 		this.image = image;
 	}
-	
-	
-	
-	
 	
 }

@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 
@@ -34,10 +36,10 @@ public class WikiApiService {
 		byte[] image = null;
 		try {
 			JsonNode json = objMappr.readTree(this.restTemplate.getForObject(url, String.class, wikiHandle));
+			System.out.println(json.path("thumbnail").path("source"));
 			imageUrl = json.path("thumbnail").path("source").asText();
-			System.out.println(imageUrl);
-			image = this.restTemplate.getForObject(imageUrl, byte[].class);
-		} catch (RestClientException | IOException e) {
+			image = this.restTemplate.getForObject(new URI(imageUrl), byte[].class);
+		} catch (RestClientException | IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

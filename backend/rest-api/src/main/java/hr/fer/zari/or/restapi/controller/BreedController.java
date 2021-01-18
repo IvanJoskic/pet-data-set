@@ -36,12 +36,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import hr.fer.zari.or.restapi.entity.Breed;
 import hr.fer.zari.or.restapi.exception.BreedNotFoundException;
 import hr.fer.zari.or.restapi.exception.InvalidInputException;
 import hr.fer.zari.or.restapi.exception.NoDescendantFoundException;
 import hr.fer.zari.or.restapi.model.BreedModel;
+import hr.fer.zari.or.restapi.model.Response;
+import hr.fer.zari.or.restapi.model.ResponseLD;
 import hr.fer.zari.or.restapi.model.ResponseModel;
+import hr.fer.zari.or.restapi.model.ResponseModelSimple;
 import hr.fer.zari.or.restapi.service.AnimalRepository;
 import hr.fer.zari.or.restapi.service.WikiApiService;
 
@@ -68,13 +75,15 @@ public class BreedController {
 	}
 
 	@GetMapping(path = "/breeds/{id}")
-	public EntityModel<Breed> getBreedById(@PathVariable long id) {
-		Optional<Breed> breed = repository.findById(id);
+	public ResponseEntity<ResponseModelSimple> getBreedById(@PathVariable long id) {
+		Optional<Breed> maybe = repository.findById(id);
 		// TODO throw error for breed == null
 		// also create the exception to throw
-		if (!breed.isPresent()) {
+		if (!maybe.isPresent()) {
 			throw new BreedNotFoundException(id);
 		}
+		
+		Breed breed = maybe.get();
 
 		Link selfLink = linkTo(methodOn(BreedController.class).getBreedById(id)).withSelfRel()
 				.withType(RequestMethod.GET.toString());
@@ -86,8 +95,37 @@ public class BreedController {
 				.withRel("descendantOf").withType(RequestMethod.GET.toString());
 		Link aggregateRoot = linkTo(methodOn(BreedController.class).retrieveAllBreeds()).withRel("breeds")
 				.withType(RequestMethod.GET.toString());
-
-		return EntityModel.of(breed.get(), selfLink.andAffordance(put), coloursLink, descendantOfLink, aggregateRoot);
+		URI image = linkTo(methodOn(BreedController.class).getImageFromWiki(id)).toUri();
+		
+		Response<Breed> response = new Response<>(breed, image);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String context = "{\n"
+				+ "\"@context\": {\r\n"
+				+ "        \"breedname\": \"https://schema.org/name\",\r\n"
+				+ "        \"description\": \"https://schema.org/description\",\r\n"
+				+ "        \"countryoforigin\": \"https://schema.org/Country\",\r\n"
+				+ "        \"countryname\": \"https://schema.org/Country/name\",\r\n"
+				+ "        \"countryabbrev\": \"https://schema.org/Country/identifier\",\r\n"
+				+ "        \"species\": \"https://schema.org/Thing\",\r\n"
+				+ "        \"colloquialname\": \"https://schema.org/name\",\r\n"
+				+ "        \"speciesname\": \"https://schema.org/alternateName\"\r\n"
+				+ "    },\n";
+		String jsonString = "";
+		JsonNode json = null;
+		try {
+			jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(EntityModel.of(response, selfLink.andAffordance(put), coloursLink, descendantOfLink, aggregateRoot));
+			json = mapper.readTree(context + jsonString.substring(3));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<ResponseModelSimple>(new ResponseModelSimple(
+				200, 
+				"Success",
+				json
+			), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/breeds/{id}/colours")
@@ -252,7 +290,7 @@ public class BreedController {
 	}
 	
 	@GetMapping("/breeds/{id}/picture")
-	public ResponseEntity<byte[]> getPictureFromWiki(@PathVariable long id) {
+	public ResponseEntity<byte[]> getImageFromWiki(@PathVariable long id) {
 		
 		Optional<Breed> maybe = repository.findById(id);
 		
@@ -264,11 +302,13 @@ public class BreedController {
 		byte[] image = wikiApiService.getImage(breed.getWiki());
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "image/jpeg");
+		headers.add("Content-Type", MediaType.IMAGE_JPEG.toString());
 		headers.add("Content-Disposition", "inline");
 		
 		// Jeli bitan Content-Disposition?
-		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+		// na svaki endpoint dodati json-ld context?
+		return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
+		//return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
 	}
 }
 

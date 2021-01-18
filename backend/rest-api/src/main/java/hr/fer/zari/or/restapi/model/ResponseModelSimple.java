@@ -2,19 +2,21 @@ package hr.fer.zari.or.restapi.model;
 
 import org.springframework.hateoas.EntityModel;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import hr.fer.zari.or.restapi.entity.Breed;
 
-public class ResponseModel {
+public class ResponseModelSimple {
 	private Integer status;
 	private String message;
-	private EntityModel<Response<Breed>> response;
+	private JsonNode response;
 	
 	
-	public ResponseModel(Integer status, String message, EntityModel<Response<Breed>> response) {
+	public ResponseModelSimple(Integer status, String message, JsonNode json) {
 		super();
 		this.status = status;
 		this.message = message;
-		this.response = response;
+		this.response = json;
 	}
 	
 	public Integer getStatus() {
@@ -35,11 +37,11 @@ public class ResponseModel {
 	
 	
 
-	public EntityModel<Response<Breed>> getResponse() {
+	public JsonNode getResponse() {
 		return response;
 	}
 
-	public void setResponse(EntityModel<Response<Breed>> response) {
+	public void setResponse(JsonNode response) {
 		this.response = response;
 	}
 
